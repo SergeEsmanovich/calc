@@ -10,7 +10,8 @@ var calcApp = angular.module('calcApp', [
     'ngSanitize',
     'ui.bootstrap',
     'ui.slider',
-    'ngAnimate'
+    'ngAnimate',
+    'calcServices'
 ]);
 
 calcApp.config(['$routeProvider',
