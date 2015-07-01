@@ -1,0 +1,183 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Example page header <small>Subtext for header</small></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <img class="thumbnail" width="100%" src="http://www.astz.ru/upload/parser/upload/1055100732.png" alt="">
+        </div>
+        <div class="col-md-9">
+            <form action="" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-4" >Выпадающий список «Раздел»</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="area.section" convert-to-number>
+                            <option ng-value="$index" ng-repeat="item in section track by $index">
+                                {{item}}
+                            </option>
+                        </select> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4" >Выпадающий список «Серия»</label>
+                    <div class="col-md-8">
+                        <ui-select ng-model="area.seria" theme="" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+                            <ui-select-match placeholder="">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices group-by="'groupe'" repeat="item in seria">
+                                <div ng-bind-html="item.text | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4" >Выпадающий список «Световой прибор»</label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="area.pribor" convert-to-number>
+                            <option ng-value="$index" ng-repeat="item in pribor track by $index">
+                                {{item}}
+                            </option>
+                        </select> 
+                    </div>
+                </div>
+                <div ng-show="area.section == 0" class="form-group">
+                    <label class="control-label col-md-4" >Выпадающий список «Положение лампы» </label>
+                    <div class="col-md-8">
+                        <select class="form-control" ng-model="area.location" convert-to-number>
+                            <option ng-value="$index" ng-repeat="item in location track by $index">
+                                {{item}}
+                            </option>
+                        </select> 
+                    </div>
+                </div>
+
+                <div class="img_buttons">
+                    <span class="col-md-2"></span>
+                    <a class="col-md-4" href="">
+                        <img ng-class="active_1" ng-click="send_active(1)" class="thumbnail" src="http://www.astz.ru/img/calculator/switch-table.png" alt="">
+                    </a>
+                    <a class="col-md-4" href="">
+                        <img ng-class="active_2" ng-click="send_active(2)" class="thumbnail" src=" http://www.astz.ru/img/calculator/switch-floor.png" alt="">
+                    </a>
+                    <span class="col-md-2"></span>
+                </div>
+
+                <div>
+                    <div class="col-md-4">
+                        <img ng-show="active_1 && active_0 == null" src="http://www.astz.ru/img/calculator/table.jpg" alt="">
+                        <img ng-show="active_2 && active_0 == null" src="http://www.astz.ru/img/calculator/floor.jpg" alt="">
+                        <img ng-show="active_3" src="http://www.astz.ru/img/calculator/floor-length.jpg" alt="">
+                        <img ng-show="active_4" src="http://www.astz.ru/img/calculator/floor-width.jpg" alt="">
+                        <img ng-show="active_5" src="http://www.astz.ru/img/calculator/floor-height.jpg" alt="">
+                        <img ng-show="active_6" src="http://www.astz.ru/img/calculator/floor-h1.jpg" alt="">
+
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input ng-model="area.length" ng-blur="active_0 = null; active_3 = 0; active_4 = 0; active_5 = 0; active_6 = 0" ng-focus="active_3 = 1; active_0 = 1" class="params_small " type="text">
+                            <label class="control-label " >Длинна</label>
+                        </div>
+                        <div class="form-group">
+                            <input ng-model="area.width" ng-blur="active_0 = null; active_3 = 0; active_4 = 0; active_5 = 0; active_6 = 0" ng-focus="active_4 = 1; active_0 = 1" class="params_small " type="text">
+                            <label class="control-label " >Ширина</label>
+                        </div>
+                        <div class="form-group">
+                            <input ng-model="area.height" ng-blur="active_0 = null; active_3 = 0; active_4 = 0; active_5 = 0; active_6 = 0" ng-focus="active_5 = 1; active_0 = 1" class="params_small  " type="text">
+                            <label class="control-label " >Высота</label>
+                        </div>
+                        <div class="form-group">
+                            <input ng-model="area.lamp_location_height" ng-blur="active_0 = null; active_3 = 0; active_4 = 0; active_5 = 0; active_6 = 0" ng-focus="active_6 = 1; active_0 = 1" class="params_small  " type="text">
+                            <label class="control-label " >Высота подвеса светильника</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="row">
+                            <div  class="col-md-8">
+                                <label class="control-label col-md-8" >Коэффициенты отражения</label>
+                                <div class="col-md-4">
+                                    <select class="form-control" ng-model="area.reflection" convert-to-number>
+                                        <option ng-value="$index" ng-repeat="item in i track by $index">
+                                            {{item}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4"><button ng-click="toggle_help_material()" type="button" class="btn btn-default pull-right">Помощник по материалам</button></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div ng-show="help_material">
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <th>Материал</th>
+                                    <th>Коэффициент отражения, %</th>
+                                </tr>
+                                <tr ng-repeat="item in help_material_table">
+                                    <td ng-repeat="value in item">{{value}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <h3>Параметры освещения</h3>
+                            <div  class="col-md-8">
+                                <div class="form-group">
+                                    <label class="control-label col-md-8" >Средняя освещенность, лк</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Средняя освещенность, лк" ng-model="area.medium_light">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-8" >Коэффициент запаса</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Коэффициент запаса" ng-model="area.safety_factor">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-8" >Коэффициент эксплуатации</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Коэффициент эксплуатации" ng-model="area.service_factor">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-8" >Высота рабочей плоскости, м</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Высота рабочей плоскости, м" ng-model="area.height_working_plane">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="toggle_standart()" type="button" class="btn btn-default pull-right">Помощник выбора уровня освещенности</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <label class="btn btn-success" ng-model="gost" btn-radio="1" uncheckable>СП 52.133330.2011</label>
+                        <label class="btn btn-success" ng-model="gost" btn-radio="2" uncheckable>ГОСТ Р 55710-2013</label>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            Log: {{area}} {{gost}}
+        </div> 
+        <div class="col-md-2">
+            <button ng-click="calculate()" type="button" class="btn btn-default pull-right">Вычислить</button>
+        </div>
+        <div class="well well-lg">
+            {{result}}
+        </div>
+
+    </div>
+</div>
