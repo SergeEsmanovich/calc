@@ -53,7 +53,7 @@
 @mixin select() {
     .select{
         margin-bottom: 23px;
-        .lable{
+        .label{
             float: left;
             width: 85px;
             height: 34px;
@@ -563,7 +563,7 @@
         .select{
             width:350px;
             float:left;
-            .lable{
+            .label{
                 width: 41px;
                 span{
                     width: 32px;
@@ -707,7 +707,7 @@
         }
         .sliders_groupe{
             .slider{
-                .lable{
+                .label{
                     display: inline-block;
                 }
                 .slide{
@@ -726,7 +726,7 @@
                 }
                 margin-bottom: 35px;
             }
-            .lable{
+            .label{
                 width: 230px;
                 color:#d10000;
                 font-size: 14px;
@@ -818,6 +818,293 @@
         }
         .save{
             @extend .next;
+        }
+    }
+
+}
+
+.clear{
+    clear:both;
+}
+#new_maket{
+    .slider{
+
+        padding-left: 20px; 
+        .ui-slider-horizontal .ui-slider-handle {
+            top: -.28em;
+        }
+        .ui-slider-horizontal{
+            height:  8px; 
+            background: rgba(226,226,226,1);
+            background: -moz-linear-gradient(left, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(209,209,209,1) 0%, rgba(254,254,254,1) 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(226,226,226,1)), color-stop(0%, rgba(219,219,219,1)), color-stop(0%, rgba(209,209,209,1)), color-stop(100%, rgba(254,254,254,1)));
+            background: -webkit-linear-gradient(left, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(209,209,209,1) 0%, rgba(254,254,254,1) 100%);
+            background: -o-linear-gradient(left, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(209,209,209,1) 0%, rgba(254,254,254,1) 100%);
+            background: -ms-linear-gradient(left, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(209,209,209,1) 0%, rgba(254,254,254,1) 100%);
+            background: linear-gradient(to right, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 0%, rgba(209,209,209,1) 0%, rgba(254,254,254,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe', GradientType=1 );
+        }
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border: 1px solid #fff;
+            background: #cb0000;
+            outline: none;
+            width: 14px;
+            height: 14px;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+        }
+
+        .label{
+            display: inline-block;
+        }
+        .slide{
+            width:290px;
+            display: inline-block;
+        }
+        .value{
+            width:47px;
+            display: inline-block;
+            border-radius: 10px 10px 10px 10px;
+            -moz-border-radius: 10px 10px 10px 10px;
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border: 1px solid #d10000; 
+            padding: 10px;
+            margin-right: 20px;
+        }
+        margin-bottom: 35px;
+    }
+    .form-control{
+        display: initial;
+        padding: 2px;
+        height: auto;
+    }
+    .big_block{
+        width:50%;
+        float: left;
+        padding-right: 20px;
+        .border-right{
+            border-right: 2px solid #ddd;
+            padding-right: 20px;
+        }
+    }
+    .title{
+        font-size: 20px;
+        margin-bottom: 10px;
+        span{
+            &:first-child{
+                padding-right: 15px;
+            }
+        }
+        .help{
+            margin-top: 3px;
+        }
+    }
+    label{
+        color:red;
+        font-weight: normal;
+    }
+    .black{
+        color:#000;
+    }
+    .block{
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+    input[type="text"]{
+        width:50px;
+    }
+    input[type="checkbox"]{
+        cursor: pointer;
+    }
+    .typearea{
+        width:150px;
+    }
+    .pollution_level{
+        width: 388px;
+        .form-control{
+            width:100%;
+        }
+    }
+    .border{
+        border: 1px solid #ddd;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+    .mr{
+        margin-right: 30px;
+    }
+    .inline{
+        display: inline-block;
+    }
+    .power_lamp{
+        margin-bottom: 10px;
+    }
+    .params{
+        width: 50%;
+        div{
+            margin-bottom: 5px;
+            &:first-child{
+                //width: 150px;
+            }
+        }
+        &.pull-right{
+            div{
+                text-align: right;
+            }
+        }
+    }
+    ul{
+        li{
+
+            input{
+                margin-right: 5px;
+            }
+            label{
+                color:#000;
+                font-weight: bold;
+                font-size: 11px;
+                margin-right: 10px;
+            } 
+        }
+    }
+    .level_of_protection{
+        margin-bottom: 10px;
+    }
+    .calculate{
+        background: red;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        color:#fff;
+        border:none;
+        border-radius: 5px 5px 5px 5px;
+        -moz-border-radius: 5px 5px 5px 5px;
+        -webkit-border-radius: 5px 5px 5px 5px;
+    }
+    .table{
+        th{
+            font-size: 12px;
+            background: #ddd;
+        }
+    }
+    .pribor{
+        @include select;
+        .image{
+            width: 100%;
+            min-height: 300px;
+
+        }
+        .form-control{
+            display: block;
+            padding: 6px 12px;
+            height: 34px;
+        }
+        .inline{
+            .select{
+                margin: 0px;
+            }
+
+            .item{
+                width: 100px;
+                margin-right: 14px;
+                &.name{
+                    width: 240px;
+                    margin-right: 0px;
+                }
+
+
+                .form-control{
+                    border-left: none; 
+                    border-radius: 0px 5px 5px 0px;
+                    -moz-border-radius: 0px 5px 5px 0px;
+                    -webkit-border-radius: 0px 5px 5px 0px;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                input{
+                    width: 100%;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                .ui-select-container{
+                    width: 100px !important;
+                    min-width:  100px !important;
+                }
+                .ui-select-choices{
+                    min-width:  300px;
+                }
+            }
+
+        }
+    }
+    .params_area{
+        label{
+            width:150px;
+            display: inline-block;
+        }
+        input{
+            margin-left: 10px;
+            margin-right: 10px;
+            //  display: inline-block;
+        }
+    }
+
+    .help{
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border: 0px solid #000000;
+        background: red;
+        color:#fff;
+        padding: 6px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-right: 6px;
+        padding-left: 6px;
+        cursor:help;
+        font-size: 12px;
+        display: block;
+        font-weight: bold;
+
+    }
+    .factors{
+        input{
+            text-align: center;
+        } 
+    }
+    .reflections{
+        .select{
+            width: 228px;
+        }
+        .content{
+            height: 40px;
+        }
+    }
+    .params_light{
+        .head{
+            label{
+                width:220px;
+                text-align: right;
+                padding-right: 20px;
+            }
+            input{
+                text-align: center;
+                width: 100px;
+            }
+        }
+        .r_groupe{
+            width:220px;
+
+            input{
+                margin-right: 5px;
+            }
         }
     }
 

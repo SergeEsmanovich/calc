@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/OpenServer/domains/calc/db/index.html</file>
-            <file>file:/C:/OpenServer/domains/calc/js/app.js</file>
+            <file>file:/C:/OpenServer/domains/calc/sass/style.scss</file>
+            <file>file:/C:/OpenServer/domains/calc/js/services.js</file>
+            <file>file:/C:/OpenServer/domains/calc/partials/home_last.html</file>
+            <file>file:/C:/OpenServer/domains/calc/js/controllers.js</file>
+            <file>file:/C:/OpenServer/domains/calc/partials/home.html</file>
         </group>
     </open-files>
 </project-private>

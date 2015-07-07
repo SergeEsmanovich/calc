@@ -1,0 +1,10 @@
+{
+    "elements": {
+        "lable": {}
+    },
+    "attributes": {
+        "tooltip-placement": {
+            "context": "span"
+        }
+    }
+}

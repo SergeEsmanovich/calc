@@ -107,7 +107,7 @@ function Calc() {
     }
     //Количество светильников
     this.col_lamp = function () {
-        return   Math.round((100 * this.medium_light * this.safety_factor * this.area()) / (this.total_luminous_flux * this.factor_use()));
+        return   Math.ceil((100 * this.medium_light * this.safety_factor * this.area()) / (this.total_luminous_flux * this.factor_use()));
     }
     //Суммарная мощность осветительной установки, кВт
     this.power = function () {
@@ -145,7 +145,7 @@ function Calc() {
 
         //  console.log('Суммарная мощность Осветительной установки, кВт = ' + this.power());
         log.push('Суммарная мощность Осветительной установки, кВт = ' + this.power());
-        result.push(this.power());
+        result.push(this.power().toFixed(2));
 
         //   console.log('Стоимость = ' + this.cost_lamps());
         log.push('Стоимость = ' + this.cost_lamps());

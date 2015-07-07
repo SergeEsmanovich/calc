@@ -1,0 +1,358 @@
+<div class="container">
+    <div class="calculator">
+        <div class="title red">
+            Калькулятор для расчета осветительной установки 
+        </div>
+        <div class="steps">
+            <table>
+                <tr class="head">
+                    <td ng-class="{'complete':step >= 1}" class="">1 этап</td>
+                    <td ng-class="{'complete':step >= 2}">2 этап</td>
+                    <td ng-class="{'complete':step >= 3}">3 этап</td>
+                    <td ng-class="{'complete':step >= 4}">4 этап</td>
+                    <td ng-class="{'complete':step >= 5}">Результат</td>
+                </tr>
+                <tr class="description">
+                    <td ng-class="{'red':step >= 1}">Выбор светильника</td>
+                    <td ng-class="{'red':step >= 2}">Параметры помещения</td>
+                    <td ng-class="{'red':step >= 3}">Коэффициенты отражения</td>
+                    <td ng-class="{'red':step >= 4}">Параметры освещения</td>
+                    <td ng-class="{'red':step >= 5}">Результат расчета</td>
+                </tr>
+            </table>
+
+            <div ng-show="step == 1"  class="choice_lamp">
+                <div class="title"><span class="lamp"></span><span class="text">Выбор светильника</span></div>
+                <div class="image">
+                    <img src="/images/big_lamp.png" alt="">
+                </div>
+                <div class="select_groupe">
+                    <div class="select">
+                        <div class="lable red">
+                            <span>Раздел</span>
+                        </div>
+                        <div class="item">
+                            <select class="form-control" ng-model="area.section" convert-to-number>
+                                <option ng-value="$index" ng-repeat="item in DBheader.section track by $index">
+                                    {{item.section}}
+                                </option>
+                            </select> 
+                            <!--                            <ui-select ng-model="area.seria" theme="" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+                                                            <ui-select-match placeholder="">{{$select.selected.text}}</ui-select-match>
+                                                            <ui-select-choices group-by="'groupe'" repeat="item in seria">
+                                                                <div ng-bind-html="item.text | highlight: $select.search"></div>
+                                                            </ui-select-choices>
+                                                        </ui-select>-->
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="select">
+                        <div class="lable red">
+                            <span>Серия</span>
+                        </div>
+                        <div class="item">
+                            <ui-select ng-model="area.seria" theme="" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+                                <ui-select-match placeholder="">{{$select.selected.text}}</ui-select-match>
+                                <ui-select-choices group-by="'groupe'" repeat="item in DBheader.seria">
+                                    <div ng-bind-html="item.text | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="select">
+                        <div class="lable red">
+                            <span>Прибор</span>
+                        </div>
+                        <div class="item">
+                            <select class="form-control" ng-model="area.pribor" convert-to-number>
+                                <option ng-value="$index" ng-repeat="item in DBheader.pribor | filter:1 track by $index">
+                                    {{item.name}}
+                                </option>
+                            </select> 
+                            <!--                            <ui-select ng-model="area.seria" theme="" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+                                                            <ui-select-match placeholder="">{{$select.selected.text}}</ui-select-match>
+                                                            <ui-select-choices group-by="'groupe'" repeat="item in seria">
+                                                                <div ng-bind-html="item.text | highlight: $select.search"></div>
+                                                            </ui-select-choices>
+                                                        </ui-select>-->
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="select">
+                        <div class="lable red">
+                            <span>Положение</span>
+                        </div>
+                        <div class="item">
+                            <select class="form-control" ng-model="area.location" convert-to-number>
+                                <option ng-value="$index" ng-repeat="item in DBheader.location track by $index">
+                                    {{item}}
+                                </option>
+                            </select>
+                            <!--                            <ui-select ng-model="area.seria" theme="" ng-disabled="disabled" style="min-width: 300px;" title="Choose a person">
+                                                            <ui-select-match placeholder="">{{$select.selected.text}}</ui-select-match>
+                                                            <ui-select-choices group-by="'groupe'" repeat="item in seria">
+                                                                <div ng-bind-html="item.text | highlight: $select.search"></div>
+                                                            </ui-select-choices>
+                                                        </ui-select>-->
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div ng-show="step == 2"  class="params_area">
+                <div class="title"><span class="triangle"></span><span class="text">Параметры помещения</span></div>
+                <div class="interactiv_block">
+                    <div class="absolute">
+                        <div ng-class="{'active': area.lamp_location_height.focus}" class="arrow1"></div>
+                        <div ng-class="{'active': area.lamp_location_height.focus}" class="circle1">{{area.lamp_location_height.val}} м</div>
+                        <div ng-class="{'active': area.height.focus}" class="arrow2"></div>
+                        <div ng-class="{'active': area.height.focus}" class="circle2">{{area.height.val}} м</div>
+                        <div ng-class="{'active': area.width.focus}" class="arrow3"></div>
+                        <div ng-class="{'active': area.width.focus}" class="circle3">{{area.width.val}} м</div>
+                        <div ng-class="{'active': area.length.focus}"  class="arrow4"></div>
+                        <div ng-class="{'active': area.length.focus}" class="circle4">{{area.length.val}} м</div>
+                    </div>
+                    <div class="input_groupe">
+                        <div class="input">
+                            <div class="groupe">
+                                <div class="left">
+                                    <div class="br"><span></span></div> 
+                                </div> 
+                                <div class="right">
+                                    <input  placeholder="Высота подвеса (м)" ng-blur="area.lamp_location_height.focus = 0" ng-focus="area.lamp_location_height.focus = 1"  ng-model="area.lamp_location_height.val" type="text">
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input">
+                            <div class="groupe">
+                                <div class="left">
+                                    <div class="br"> <span></span> </div>
+                                </div> 
+                                <div class="right">
+                                    <input placeholder="Длинна (м)" ng-blur="area.length.focus = 0" ng-focus="area.length.focus = 1" ng-model="area.length.val" type="text">
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input">
+                            <div class="groupe">
+                                <div class="left">
+                                    <div class="br"> <span></span></div>
+                                </div> 
+                                <div class="right">
+                                    <input placeholder="Ширина (м)" ng-blur="area.width.focus = 0" ng-focus="area.width.focus = 1" ng-model="area.width.val" type="text">
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input">
+                            <div class="groupe">
+                                <div class="left">
+                                    <div class="br">  <span></span></div>
+                                </div> 
+                                <div class="right">
+                                    <input placeholder="Высота (м)" ng-blur="area.height.focus = 0" ng-focus="area.height.focus = 1"  ng-model="area.height.val"type="text">
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div ng-show="step == 3"  class="reflections">
+                <div class="title"><span class="grafics"></span><span class="text">Коэффициенты отражения</span></div>
+                <div class="desc">Для более точного выбора светильника для вашего помещения выберите коэффициент отражения отделки вашей комнаты</div>
+                <div class="params_desc">
+                    <p>
+                        <span>ρ_пот</span> -  средневзвешенный коэффициент отражения потолка
+                    </p>
+                    <p>
+                        <span>ρ_ст</span> -  средневзвешенный коэффициент отражения стен
+                    </p>
+                    <p>
+                        <span>ρ_пол</span> -  средневзвешенный коэффициент отражения пола
+                    </p>
+                </div>
+                <div class="select">
+                    <div class="lable red">
+                        <span><i class="image_reflection"></i></span>
+                    </div>
+                    <div class="item">
+                        <select class="form-control" ng-model="area.reflection" convert-to-number>
+                            <option ng-value="$index" ng-repeat="item in reflections track by $index">
+                                {{item}}
+                            </option>
+                        </select>                      
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="help">
+                    <button ng-click="toggle_help_material()">Помошник по материалам</button>
+                </div>
+                <div class="clear"></div>
+                <table ng-show="help_material" class="table">
+                    <tr>
+                        <th>Материал отделки вашего помещения</th>
+                        <th colspan="2">Коэффициент отражения, %</th>
+                    </tr>
+                    <tr ng-repeat="material in help_material_table">
+                        <td>{{material.name}}</td>
+                        <td><i class="fa fa-play"></i>{{material.ref}}</td>
+                        <td>
+                            <span ng-class="{'active': material.active[0]}">ρ_пот</span>
+                            <span ng-class="{'active': material.active[1]}">ρ_ст</span>
+                            <span ng-class="{'active': material.active[2]}">ρ_пол</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <!--                <div class="user_params">
+                                    <b>Ваши значения</b>
+                                    <i class="fa fa-play"></i>
+                                    <span>80</span>
+                                    <span>50</span>
+                                    <span>20</span>
+                                </div>-->
+            </div>
+
+            <div  ng-show="step == 4" class="params_light">
+                <div class="title">
+                    <span class="zorka">
+                    </span>
+                    <span class="text">Параметры освещения</span>
+                    <button class="gost active">СП 52.133330.2011</button>
+                    <button class="gost">ГОСТ Р 55710-2013</button>
+                </div>
+                <div class="sliders_groupe">
+                    <div class="slider">
+                        <div class="lable">
+                            Средняя освещенность, лк
+                        </div>
+                        <div class="value">
+                            {{area.medium_light}}
+                        </div>
+                        <div class="slide">
+                            <div ui-slider min="0" max="1000" step="10" ng-model="area.medium_light"></div>
+                        </div>
+                    </div>
+                    <div class="slider">
+                        <div class="lable">
+                            Коэффициент запаса
+                        </div>
+                        <div class="value">
+                            {{area.safety_factor / 10}}
+                        </div>
+                        <div class="slide">
+                            <div ui-slider min="2" max="8" step="1" ng-model="area.safety_factor"></div>
+                        </div>
+                    </div>
+                    <div class="slider">
+                        <div class="lable">
+                            Коэффициент эксплуатации
+                        </div>
+                        <div class="value">
+                            {{area.service_factor / 100}}
+                        </div>
+                        <div class="slide">
+                            <div ui-slider min="56" max="71" step="1" ng-model="area.service_factor"></div>
+                        </div>
+                    </div>
+                    <div class="slider">
+                        <div class="lable">
+                            Высота рабочей плоскости, м
+                        </div>
+                        <div class="value">
+                            {{area.height_working_plane / 100}}
+                        </div>
+                        <div class="slide">
+                            <div ui-slider min="0" max="200" step="5" ng-model="area.height_working_plane"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div ng-show="step == 5"  class="result">
+                <div class="title"><span class="diagr"></span><span class="text">Результат расчета</span></div>
+                <div class="block_table">
+                    <table class="table">
+                        <tr>
+                            <td><span>1</span></td>
+                            <td>Расчетная высота, м</td>
+                            <td><b>{{result[0]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>2</span></td>
+                            <td>Площадь помещения</td>
+                            <td><b>{{result[1]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>3</span></td>
+                            <td>Индекс помещения</td>
+                            <td><b>{{result[2]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>4</span></td>
+                            <td>Коэффициент использования, % </td>
+                            <td><b>{{result[3]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>5</span></td>
+                            <td>Количество светильников</td>
+                            <td><b>{{result[4]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>6</span></td>
+                            <td>Суммарная мощность, кВт</td>
+                            <td><b>{{result[5]}}</b></td>
+                        </tr>
+                        <tr>
+                            <td><span>7</span></td>
+                            <td>Суммарная стоимость светильников, тыс.руб.</td>
+                            <td><b>{{result[6]}}</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div ng-hide="step == 5" class="buttons_block">
+                <button ng-show="step == 4" ng-click="next_step(); calculate()" class="pull-right calculate">Расчитать освещение</button>
+                <button ng-hide="step == 4" ng-click="next_step()" class="pull-right next">
+                    Продолжить
+                </button>
+                <button ng-hide="step == 1" ng-click="prev_step()" class="pull-right return">
+                    <i class="fa fa-reply"></i>К предыдущему шагу
+                </button>
+                <div class="clear"></div>
+            </div>
+            <div ng-show="step == 5" class="buttons_block">
+                <button class="pull-right save">
+                    <i class="fa fa-file-pdf-o"></i> Скачать расчет
+                </button>
+                <button ng-click="step = 1" class="pull-right return">
+                    <i class="fa fa-reply"></i>К началу расчета
+                </button>
+                <div class="clear"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!--<pre>
+    {{result}}
+</pre>
+<pre>
+{{area}}
+</pre>-->
+
+

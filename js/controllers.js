@@ -1,29 +1,4 @@
 'use strict';
-/*DB*/
-
-//var db = openDatabase('documents', '1.0', 'Offline document storage', 5 * 1024 * 1024, function (db) {
-//    db.changeVersion('', '1.0', function (t) {
-//        t.executeSql('CREATE TABLE docids (id, name)');
-//    }, error);
-//});
-//
-//
-//db.transaction(function (t) {
-//    t.executeSql("INSERT INTO docids (id,name) values(?, ?)", [2, "mytest"], null, null);
-//    t.executeSql("SELECT * FROM docids", [], function (t, result) {
-//        console.log(result);
-//        for (var i = 0; i < result.rows.length; i++) {
-//            console.log(result.rows.item(i));
-//        }
-//    }, null);
-//
-//});
-//var Peer = require('peerjs').Peer;
-
-// peer.on('open', function (id) {
-//            // $('#pid').text(id);
-//        //    $scope.log = id;
-//        });
 
 
 /* Controllers */
@@ -68,42 +43,66 @@ var calcControllers = angular.module('calcControllers', [], function ($httpProvi
             return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
         }];
 });
-calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'XLSXReaderService',
-    function ($scope, $http, $rootScope, XLSXReaderService) {
+calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', 'DBheader', '$timeout',
+    function ($scope, $http, $rootScope, DB, DBheader, $timeout) {
 
 
-        $scope.showPreview = false;
-
-        $scope.fileChanged = function (files) {
-            $scope.sheets = [];
-            $scope.excelFile = files[0];
-            XLSXReaderService.readFile($scope.excelFile, $scope.showPreview).then(function (xlsxData) {
-                $scope.sheets = xlsxData.sheets;
-            });
-        };
-
-        $scope.showPreviewChanged = function () {
-            if ($scope.showPreview) {
-                XLSXReaderService.readFile($scope.excelFile, $scope.showPreview).then(function (xlsxData) {
-                    $scope.sheets = xlsxData.sheets;
-                });
+        $scope.db = new DB();
+        $scope.db.load();
+        $scope.DBheader = new DBheader();
+        $scope.DBheader.load();
+        var busy = false;
+        $scope.$watch('DBheader.power', function (newValue, oldValue) {
+            //bullet time
+            if (!busy) {
+                busy = true
+                $timeout(function () {
+                    $scope.DBheader.filtr();
+                    busy = false;
+                }, 2000);
             }
-            ;
-        };
+        });
+        $scope.$watch('area.seria', function (newValue, oldValue) {
+            //bullet time
+            if (!busy) {
+                busy = true
+                $timeout(function () {
+                    $scope.DBheader.filtr_seria(newValue);
+                    busy = false;
+                }, 500);
+            }
+        });
+        $scope.$watch('area.pribor', function (newValue, oldValue) {
+            angular.forEach($scope.DBheader.content, function (value) {
+                if (value.id == newValue) {
+                    $scope.DBheader.image = value.image;
+                }
+            });
+        });
 
 
-//        if (typeof require !== 'undefined')
-//            XLSX = require('xlsx');
-//        $scope.workbook = XLSX.readFile('test.xlsx');
+//        $scope.$watch('DBheader.content', function (newValue, oldValue) {
+//           $scope.area.seria = null;
+//        });
+
+        //Раздел
+//        $scope.section = [
+//            'Промышленные светильники типа «колокол»',
+//            'Линейные промышленные светильники',
+//            'Светодиодные промышленные светильники'
+//        ];
 
 
-        $scope.step = 1;
-        $scope.next_step = function () {
-            $scope.step += 1;
-        }
-        $scope.prev_step = function () {
-            $scope.step -= 1;
-        }
+
+
+
+//        $scope.step = 1;
+//        $scope.next_step = function () {
+//            $scope.step += 1;
+//        }
+//        $scope.prev_step = function () {
+//            $scope.step -= 1;
+//        }
 
 
 
@@ -113,12 +112,18 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'XLSXRe
             length: {focus: 0, val: 10},
             width: {focus: 0, val: 5},
             height: {focus: 0, val: 5},
+            power: [120, 300],
             medium_light: 300,
-            safety_factor: 4,
-            service_factor: 71,
+            safety_factor: 0.4,
+            service_factor: 0.71,
             height_working_plane: 0,
-            reflection: 3
+            reflection: 3,
+            location: 1,
+            seria: null,
+            pribor: null,
+            type: 1
         };
+
         var lamps = [{
                 id: 1,
                 cat_name: 'Промышленные светильники типа "колокол"',
@@ -149,46 +154,41 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'XLSXRe
             {name: 'Паркетная доска темная', ref: 10, active: [1, 0, 0]},
             {name: 'Ковролин однотонный серый', ref: 10, active: [0, 0, 1]}
         ];
-        //Раздел
-        $scope.section = [
-            'Промышленные светильники типа «колокол»',
-            'Линейные промышленные светильники',
-            'Светодиодные промышленные светильники'
-        ];
-        $scope.seria = [
-            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ЖСП07', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ГСП17', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ЖСП17', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ЖСП47', groupe: 'Промышленные светильники типа «колокол»'},
-            {text: 'ЛСП61', groupe: 'Линейные промышленные светильники'},
-            {text: 'ЛСП41', groupe: 'Линейные промышленные светильники'},
-            {text: 'ДСП09', groupe: 'Светодиодные промышленные светильники'},
-        ];
-        $scope.pribor = [
-            'суммарный световой поток всех ламп в световом приборе (nFл)',
-            'тип ламп',
-            'высота светильника  (hсв)',
-            'мощность СП (Pсв)',
-            'стоимость светильника (Ссв)',
-        ];
-        $scope.location = [
-            'p1 (положение 1)',
-            'p2 (положение 2)'
-        ];
-        $scope.active_1 = 'active';
-        $scope.active_2 = '';
-        $scope.send_active = function (id) {
-            if (id == 1) {
-                $scope.active_1 = 'active';
-                $scope.active_2 = '';
-            } else {
-                $scope.active_1 = '';
-                $scope.active_2 = 'active';
-            }
 
-        }
+//        $scope.seria = [
+//            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ЖСП07', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ГСП17', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ЖСП17', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ЖСП47', groupe: 'Промышленные светильники типа «колокол»'},
+//            {text: 'ЛСП61', groupe: 'Линейные промышленные светильники'},
+//            {text: 'ЛСП41', groupe: 'Линейные промышленные светильники'},
+//            {text: 'ДСП09', groupe: 'Светодиодные промышленные светильники'},
+//        ];
+//        $scope.pribor = [
+//            'суммарный световой поток всех ламп в световом приборе (nFл)',
+//            'тип ламп',
+//            'высота светильника  (hсв)',
+//            'мощность СП (Pсв)',
+//            'стоимость светильника (Ссв)',
+//        ];
+//        $scope.location = [
+//            'p1 (положение 1)',
+//            'p2 (положение 2)'
+//        ];
+//        $scope.active_1 = 'active';
+//        $scope.active_2 = '';
+//        $scope.send_active = function (id) {
+//            if (id == 1) {
+//                $scope.active_1 = 'active';
+//                $scope.active_2 = '';
+//            } else {
+//                $scope.active_1 = '';
+//                $scope.active_2 = 'active';
+//            }
+//
+//        }
 
 
 
@@ -211,46 +211,74 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'XLSXRe
         calc.load_data(lamps[0]);
         calc.calculate();
         $scope.calculate = function () {
-            // alert('пока рано');
             if ($scope.area.length.val)
                 calc.length = $scope.area.length.val;
+
             if ($scope.area.width.val)
                 calc.width = $scope.area.width.val;
+
             if ($scope.area.height.val)
                 calc.height = $scope.area.height.val;
+
             if ($scope.area.lamp_location_height.val)
                 calc.lamp_location_height = $scope.area.lamp_location_height.val;
+
             if ($scope.area.medium_light)
                 calc.medium_light = $scope.area.medium_light;
+
             if ($scope.area.safety_factor)
-                calc.safety_factor = $scope.area.safety_factor / 10;
+                calc.safety_factor = $scope.area.safety_factor;
+
             if ($scope.area.service_factor)
-                calc.service_factor = $scope.area.service_factor / 100;
+                calc.service_factor = $scope.area.service_factor;
+
             if (typeof $scope.area.reflection !== 'undefined')
                 calc.reflection = $scope.area.reflection;
+
             if (typeof $scope.area.height_working_plane !== 'undefined')
-                calc.height_working_plane = $scope.area.height_working_plane / 100;
-            $scope.result = calc.calculate();
+                calc.height_working_plane = $scope.area.height_working_plane;
+
+
+            angular.forEach($scope.DBheader.content, function (value) {
+
+                angular.forEach($scope.db.items, function (v, key) {
+                    if (key.indexOf(value.article) + 1) {
+                        value.table = v;
+                    }
+                });
+                if(value.table)
+                calc.table = value.table;
+                value.lamp_power = 1 * $scope.DBheader.get_power_lamp(value.power_lamp_id);
+                calc.lamp_power = value.lamp_power;
+                calc.total_luminous_flux = value.total_luminous_flux;
+                $scope.result = calc.calculate();
+                value.safety_factor = $scope.area.safety_factor;
+                value.col_lamp = $scope.result[4];
+                value.summ_power = $scope.result[5];
+
+            });
+
+
         }
 
-        $scope.help_material = false;
-        $scope.toggle_help_material = function () {
-            $scope.help_material = $scope.help_material === false ? true : false;
-        };
-        $scope.standart = false;
-        $scope.toggle_standart = function () {
-            $scope.standart = $scope.standart === false ? true : false;
-        };
-        $scope.load_standart = function (item) {
-            if (item == 1)
-                $scope.st_activ_1 = true;
-            else
-                $scope.st_activ_1 = false;
-            if (item == 2)
-                $scope.st_activ_2 = true;
-            else
-                $scope.st_activ_2 = false;
-        }
+//        $scope.help_material = false;
+//        $scope.toggle_help_material = function () {
+//            $scope.help_material = $scope.help_material === false ? true : false;
+//        };
+//        $scope.standart = false;
+//        $scope.toggle_standart = function () {
+//            $scope.standart = $scope.standart === false ? true : false;
+//        };
+//        $scope.load_standart = function (item) {
+//            if (item == 1)
+//                $scope.st_activ_1 = true;
+//            else
+//                $scope.st_activ_1 = false;
+//            if (item == 2)
+//                $scope.st_activ_2 = true;
+//            else
+//                $scope.st_activ_2 = false;
+//        }
 //        $scope.active_standart = function(){
 //            if($scope.st_active_1)
 //        }
