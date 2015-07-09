@@ -11,7 +11,8 @@ var calcApp = angular.module('calcApp', [
     'ui.bootstrap',
     'ui.slider',
     'ngAnimate',
-    'calcServices'
+    'calcServices',
+    'calcControllers'
 ]);
 
 calcApp.config(['$routeProvider',

@@ -3,7 +3,16 @@
         <div class="big_block">
             <div class='title'>
                 <span class="pull-left">Выбор промышленного светильника</span>
-                <span class="help pull-left"  tooltip-placement="right" tooltip="Подсказка справа">?</span>
+                <span ng-click="help1 = 1" class="help pull-left"  >?</span>
+                <div class="help_block pull-left">
+
+                    <div ng-show="help1" class="help_content">
+                        <div  ng-click="help1 = 0" class="close">x</div>
+                        <p>При помощи фильтров отбора вы можете убрать из результатов расчетов все ненужные варианты светильников.</p>
+                        <p>Если же вы знаете конкретную модель светильника, просто выберите ее в фильтре "Серия" или "Название"</p>
+                        <p>Для запуска расчета необходимо применить хотя бы один фильтр отбора светильника</p>
+                    </div>
+                </div>
                 <div class="clear"></div>
             </div>
             <div class="border-right">
@@ -101,7 +110,14 @@
                     <div>
                         <label class="pull-left">Длинна подвеса, м</label>
                         <input ng-model="area.lamp_location_height.val" class="form-control pull-left" type="text">
-                        <span class="help pull-left"  tooltip-placement="right" tooltip="Подсказка справа">?</span>
+                        <span ng-click="help2 = 1" class="help pull-left" >?</span>
+                        <div class="help_block pull-left">
+                            <div ng-show="help2" class="help_content">
+                                <div  ng-click="help2 = 0" class="close">x</div>
+                                <p>Длинна троса, на котором подвешен светильник или расстояние от потолка до точки подвеса светильника</p>
+                                <p><center><img src="/images/help2.png" alt=""></center></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="clear"></div>   
                 </div>
@@ -119,7 +135,18 @@
             <div class="clear"></div>
             <div class="border">
                 <div>
-                    <span class="pull-right help"  tooltip-placement="left" tooltip="Подсказка слева">?</span>
+                    <span ng-click="help3 = 1" class="pull-right help"  >?</span>
+                    <div class="help_block help3 pull-right">
+                        <div ng-show="help3" class="help_content">
+                            <div  ng-click="help3 = 0" class="close">x</div>
+                            <p>Указав тип помещения и степень его загрязнения программа автоматически 
+                                подберет значение коэффициентов запаса (Кз) 
+                                согласно эксплуотационной группе светильника по СП 52.13330.2011</p>
+                            <p>Неверно выбранная степень загрязнения может привести к ошибке до 30% в расчете необходимого количества светильников.</p>
+                            <p>Вы можете вручную указать подобранные вами коэффициент запаса (Кз) или коэффициент эксплуатации (Кэ). Обратите внимание, что они связаны соотношением Кз=1/Кэ.</p>
+
+                        </div>
+                    </div>
                 </div>
                 <div  class="pull-left typearea">
                     <label>Тип помещения</label>
@@ -127,11 +154,11 @@
                 <div class="pull-left">
                     <ul class="list-unstyled">
                         <li>
-                            <input ng-model="area.type" value="1" type="radio">
+                            <input ng-model="area.type" value="0" type="radio">
                             <label>Производственное</label>
                         </li>
                         <li>
-                            <input ng-model="area.type" value="2" type="radio">
+                            <input ng-model="area.type" value="1" type="radio">
                             <label>Общественное или жилое</label>
                         </li>
                     </ul>
@@ -141,11 +168,11 @@
                     <label>Уровень загрязнения</label>
                 </div>
                 <div class="pull-left pollution_level">
-<!--                    <select class="form-control" ng-model="area.reflection" convert-to-number>
-                        <option ng-value="$index" ng-repeat="item in reflections track by $index">
-                            {{item}}
+                    <select class="form-control" ng-model="area.pollution" convert-to-number>
+                        <option ng-selected="$index == area.pollution"  value="{{$index}}"  ng-value="$index" ng-repeat="item in pollution| filter:{type:area.type} track by $index">
+                            {{item.name}}
                         </option>
-                    </select> -->
+                    </select> 
                 </div>
                 <div class="clear"></div>
                 <hr>
@@ -154,7 +181,7 @@
                         <span>
                             Коэффициент запаса
                         </span>
-                        <input ng-model="area.safety_factor" class="form-control" type="text">
+                        <input ng-model="area.safety_factor"  class="form-control" type="text">
                     </div>
                     <div class="pull-right">
                         <span>
@@ -168,15 +195,31 @@
             <div class="border reflections">
                 <div>
                     <label>Коэффициенты отражения материалов отделки</label>
-                    <span class="pull-right help"  tooltip-placement="left" tooltip="Подсказка слева">?</span>
+                    <span class="pull-right help" ng-click="help4 = 1"  >?</span>
+                    <div class="help_block help3 pull-right">
+                        <div ng-show="help4" class="help_content">
+                            <div  ng-click="help4 = 0" class="close">x</div>
+                            <p> Для более точного расчета рекомендуем уточнить коэффициенты отражения для вашего помещения согласно таблице</p>
+                            <table class="table">
+                                <tr>
+                                    <th>Материал</th>
+                                    <th>&rho;</th>
+                                </tr>
+                                <tr ng-repeat="item in help_material_table">
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.ref}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="pull-left mr">
-                        <b><span>По умолчанию p потолка, стены и пола</span></b>
+                        <b><span>По умолчанию &rho; потолка, стены и пола</span></b>
                     </div>
                     <div class="pull-left select">
                         <select class="form-control" ng-model="area.reflection" convert-to-number>
-                            <option ng-value="$index" ng-repeat="item in reflections track by $index">
+                            <option ng-selected="$index == area.reflection" value="{{$index}}" ng-value="$index" ng-repeat="item in reflections track by $index">
                                 {{item}}
                             </option>
                         </select> 
@@ -189,14 +232,25 @@
             </div>
             <div class="border params_light">
                 <div class="head">
-                    <span class="pull-right help"  tooltip-placement="left" tooltip="Подсказка слева">?</span>
+                    <span class="pull-right help"  ng-click="help5 = 1">?</span>
+                    <div class="help_block help3 pull-right">
+                        <div ng-show="help5" class="help_content">
+                            <div  ng-click="help5 = 0" class="close">x</div>
+                            <p>Необходимый уровень освещенности согласно типу работ производимых в помещении можно выбрать по следующим таблицам из нормативных документов:</p>
+                            <p><a href="">СП 52.13330.2011</a></p>
+                            <p>таблицы №1-3 (стр. 3-10)</p>
+                            <p><a href="">ГОСТ Р 55710-2013</a></p>
+                            <p>таблицы №6-42 (стр. 4-13)</p>
+                        </div>
+                    </div>
                     <label>Освещенность, лк</label>
                     <input class="form-control" type="text" ng-model="area.medium_light">
                 </div>
+
                 <div>
                     <div class="pull-left r_groupe">
-                        <span><input ng-model="area.location" value="1"  type="radio"><label class="black" for="">на полу</label></span>
-                        <span><input ng-model="area.location"  value="2"  type="radio"><label  class="black" for="">на столах</label></span>
+                        <span><input ng-model="area.height_working_plane" value="0"  type="radio"><label class="black" for="">на полу</label></span>
+                        <span><input ng-model="area.height_working_plane"  value="0.8"  type="radio"><label  class="black" for="">на столах</label></span>
                     </div>
                     <div class="pull-left slider">
                         <div class="slide">
@@ -222,15 +276,29 @@
                 <th>Тип лампы</th>
                 <th>
                     <span>Положение лампы</span>
-                    <span class="pull-right help"  tooltip-placement="right" tooltip="Подсказка справа">?</span>
-                </th>
-                <th>Мощность светильника, Вт</th>
-                <th>Количество светильников</th>
-                <th>Расчетный коэф. запаса Кз</th>
-                <th>Мощность установки, кВт</th>
-                <th>Рекомендуемое кол-во чисток в год</th>
+                    <span class="pull-right help" ng-click="help6 = 1" >?</span>
+            <div class="help_block help6 pull-right">
+                <div ng-show="help6" class="help_content">
+                    <div  ng-click="help6 = 0" class="close">x</div>
+                    <p>Изменение положения лампы ДРИ (МГЛ) и ДРЛ  в светильнике позволяет сократить необходимое количество светильников благодаря более рациональному освещению поверхности.</p>
+                    <div class="pull-left"><img src="/images/loc.png" alt=""></div>
+                    <p>Положение лампы необходимо указать
+                        при заказе светильника.</p>
+                    <p>Цена светильника не зависит от
+                        положения лампы.</p>
+                    <p>Если в расчете не указано положение
+                        лампы, значит оно не регулируется.</p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            </th>
+            <th class="filtr" ng-click="reverse = !reverse; order('lamp_power', reverse)"><span>Мощность светильника, Вт</span></th>
+            <th class="filtr" ng-click="reverse = !reverse; order('col_lamp', reverse)"><span>Количество светильников</span></th>
+            <th>Расчетный коэф. запаса Кз</th>
+            <th class="filtr" ng-click="reverse = !reverse; order('summ_power', reverse)"><span>Мощность установки, кВт</span></th>
+            <th>Рекомендуемое кол-во чисток в год</th>
             </tr>
-            <tr ng-repeat="lamp in DBheader.content track by $index">
+            <tr ng-show="view_result" ng-repeat="lamp in DBheader.calculation track by $index">
                 <td>{{$index + 1}}</td>
                 <td>{{lamp.name}}</td>
                 <td>{{lamp.article}}</td>
@@ -239,8 +307,10 @@
                 <td>{{DBheader.get_power_lamp(lamp.power_lamp_id)}}</td>
                 <td>{{lamp.col_lamp}}</td>
                 <td>{{lamp.safety_factor}}</td>
-                <td>{{lamp.summ_power}}</td>
-                <td>2</td>
+                <td>
+                    {{lamp.summ_power}}
+                </td>
+                <td>{{pollution[area.pollution].col_clear}}</td>
             </tr>
         </table>
     </div>

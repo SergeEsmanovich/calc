@@ -43,8 +43,8 @@ var calcControllers = angular.module('calcControllers', [], function ($httpProvi
             return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
         }];
 });
-calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', 'DBheader', '$timeout',
-    function ($scope, $http, $rootScope, DB, DBheader, $timeout) {
+calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', 'DBheader', '$timeout', '$filter',
+    function ($scope, $http, $rootScope, DB, DBheader, $timeout, $filter) {
 
 
         $scope.db = new DB();
@@ -73,42 +73,28 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             }
         });
         $scope.$watch('area.pribor', function (newValue, oldValue) {
+            $scope.DBheader.calculation = [];
             angular.forEach($scope.DBheader.content, function (value) {
                 if (value.id == newValue) {
+                    $scope.DBheader.calculation.push(value);
                     $scope.DBheader.image = value.image;
                 }
             });
         });
+        var orderBy = $filter('orderBy');
+        $scope.order = function (predicate, reverse) {
+            $scope.DBheader.calculation = orderBy($scope.DBheader.calculation, predicate, reverse);
+        };
 
-
-//        $scope.$watch('DBheader.content', function (newValue, oldValue) {
-//           $scope.area.seria = null;
-//        });
-
-        //Раздел
-//        $scope.section = [
-//            'Промышленные светильники типа «колокол»',
-//            'Линейные промышленные светильники',
-//            'Светодиодные промышленные светильники'
-//        ];
-
-
-
-
-
-//        $scope.step = 1;
-//        $scope.next_step = function () {
-//            $scope.step += 1;
-//        }
-//        $scope.prev_step = function () {
-//            $scope.step -= 1;
-//        }
-
+        $scope.$watch('area.pollution', function (newValue, oldValue) {
+            $scope.area.safety_factor = $scope.pollution[$scope.area.pollution].kz;
+            $scope.area.service_factor = $scope.pollution[$scope.area.pollution].ke;
+        }, true);
 
 
 
         $scope.area = {
-            lamp_location_height: {focus: 0, val: 0.43},
+            lamp_location_height: {focus: 0, val: 0},
             length: {focus: 0, val: 10},
             width: {focus: 0, val: 5},
             height: {focus: 0, val: 5},
@@ -121,9 +107,70 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             location: 1,
             seria: null,
             pribor: null,
-            type: 1
+            type: 0,
+            pollution: 2
         };
 
+        $scope.pollution = [
+            {name: 'Высокое (более 5 мг/м3 пыли, дыма, копоти)',
+                type: 0
+            },
+            {name: 'Среднее (1-5 мг/м3 пыли, дыма, копоти)',
+                type: 0
+            },
+            {name: 'Низкое (менее 1 мг/м3 пыли, дыма, копоти)',
+                type: 0
+            },
+            {name: 'Химическое (пары щелочей или кислот)',
+                type: 0
+            },
+            {name: 'Чистое (обслуживание светильников с технического этажа)',
+                type: 0
+            },
+            {name: 'Чистое (обслуживание светильников снизу из помещения)',
+                type: 0
+            },
+            {name: 'Пыль, сырость, жар',
+                type: 1
+            },
+            {name: 'Нормальные условия',
+                type: 1
+            }
+        ];
+
+        /*
+         * Допустим есть светильник 3-й группы
+         * pollution = 0;
+         * Нужно найти значения для 0 и 3-й гр
+         * по сути матрица
+         */
+        $scope.RKZ = new Array(
+//Высокое (более 5 мг/м3 пыли, дыма, копоти)  
+//Среднее (1-5 мг/м3 пыли, дыма, копоти)   
+//Низкое (менее 1 мг/м3 пыли, дыма, копоти)
+//Химическое (пары щелочей или кислот)
+//Чистое (обслуживание светильников с технического этажа)
+//Чистое (обслуживание светильников снизу из помещения)
+                new Array({kz: 2, ke: 0.5, c: 18}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.5, ke: 0.67, c: 4}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe1
+                new Array({kz: 2, ke: 0.5, c: 18}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.5, ke: 0.67, c: 4}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe2
+                new Array({kz: 2, ke: 0.5, c: 18}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.5, ke: 0.67, c: 4}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe3
+                new Array({kz: 2, ke: 0.5, c: 18}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.5, ke: 0.67, c: 4}, {kz: 1.8, ke: 0.56, c: 6}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe4
+                new Array({kz: 1.7, ke: 0.59, c: 6}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.4, ke: 0.71, c: 2}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe5
+                new Array({kz: 1.7, ke: 0.59, c: 6}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.4, ke: 0.71, c: 2}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe6
+                new Array({kz: 1.6, ke: 0.63, c: 4}, {kz: 1.6, ke: 0.63, c: 2}, {kz: 1.4, ke: 0.71, c: 1}, {kz: 1.6, ke: 0.63, c: 2}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 4}) //groupe7
+                );
+
+
+
+
+
+        $scope.selected = function (a, b) {
+            console.log(a);
+            console.log(b);
+            if (a == b)
+                return 1;
+            return  0;
+        }
         var lamps = [{
                 id: 1,
                 cat_name: 'Промышленные светильники типа "колокол"',
@@ -138,7 +185,6 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                 file: 'ЖСП07-70-001_р1_4620014038781.хlsx'
             }];
         $scope.reflections = ['80,80,30', '80,50,30', '80,30,10', '70,50,20', '50,50,10', '50,30,10', '30,30,10', '0,0,0'];
-        $scope.area.reflection = 3;
         $scope.j = [0.6, 0.8, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
         $scope.help_material_table = [
             {name: 'Гипсокартон белый', ref: 80, active: [0, 0, 1]},
@@ -238,27 +284,104 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             if (typeof $scope.area.height_working_plane !== 'undefined')
                 calc.height_working_plane = $scope.area.height_working_plane;
 
+            if ($scope.DBheader.calculation.length == 0)
+                $scope.DBheader.calculation = $scope.DBheader.content;
 
-            angular.forEach($scope.DBheader.content, function (value) {
+            $scope.allresult = [];
+
+            angular.forEach($scope.DBheader.calculation, function (value) {
+                value.table = [];
+                value.keys = [];
+                value.safety_factor = $scope.area.safety_factor;
+                var allresult = [];
+
 
                 angular.forEach($scope.db.items, function (v, key) {
-                    if (key.indexOf(value.article) + 1) {
-                        value.table = v;
+
+                    if ((key.indexOf(value.article) !== -1)) {
+                        var temp_key = key.replace(' ', '');
+                        var temp_name = value.name.replace(' ', '');
+                        if (temp_key.indexOf(temp_name) !== -1) {
+                            value.table.push(v);
+                            value.keys.push(key);
+                            calc.table = v;
+                            //Мощность лампочки
+                            value.lamp_power = 1 * $scope.DBheader.get_power_lamp(value.power_lamp_id);
+                            calc.lamp_power = value.lamp_power;
+                            //Световой поток
+                            calc.total_luminous_flux = value.total_luminous_flux;
+
+                            var result = calc.calculate();
+//                        if (value.location) {
+//                            value.location = value.location == 'p1' ? 'p1' : 'p2';
+//                        }
+                            allresult.push(result);
+
+
+                        } else {
+                            console.log('Не совпадение по имени!');
+                            console.log(value.name);
+                            console.log(key);
+                        }
                     }
                 });
-                if(value.table)
-                calc.table = value.table;
-                value.lamp_power = 1 * $scope.DBheader.get_power_lamp(value.power_lamp_id);
-                calc.lamp_power = value.lamp_power;
-                calc.total_luminous_flux = value.total_luminous_flux;
-                $scope.result = calc.calculate();
-                value.safety_factor = $scope.area.safety_factor;
-                value.col_lamp = $scope.result[4];
-                value.summ_power = $scope.result[5];
+
+
+                value.result = allresult;
+
+
+//                
+//                value.col_lamp = $scope.result[4];
+//                value.summ_power = $scope.result[5];
+
 
             });
 
 
+            $scope.deepCopy = function (obj) {
+                if (typeof obj != "object") {
+                    return obj;
+                }
+
+                var copy = obj.constructor();
+                for (var key in obj) {
+                    if (typeof obj[key] == "object") {
+                        copy[key] = this.deepCopy(obj[key]);
+                    } else {
+                        copy[key] = obj[key];
+                    }
+                }
+                return copy;
+            };
+
+
+
+
+            var temp = [];
+            for (var i = 0; i < $scope.DBheader.calculation.length; i++) {
+                var item = $scope.DBheader.calculation[i];
+                if (item.result.length > 0) {
+                    for (var j = 0; j < item.result.length; j++) {
+                        item.col_lamp = item.result[j][4];
+                        item.summ_power = item.result[j][5];
+                        if (item.location == 'p1') {
+                            item.location = j == 0 ? 'p1' : 'p2';
+                        } else {
+                            if (item.location == 'p2')
+                                item.location = j == 0 ? 'p2' : 'p1';
+                        }
+
+                        temp.push($scope.deepCopy(item));
+                    }
+                } else {
+                    temp.push($scope.deepCopy(item));
+                }
+            }
+
+            $scope.DBheader.calculation = temp;
+
+            $scope.order('summ_power', false);
+            $scope.view_result = 1;
         }
 
 //        $scope.help_material = false;

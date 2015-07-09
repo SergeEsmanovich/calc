@@ -701,6 +701,67 @@
 .clear {
   clear: both; }
 
+#new_maket .help_block.help3 .help_content {
+  width: 400px;
+  margin: 0px;
+  margin-right: 20px;
+  margin-left: -417px; }
+  #new_maket .help_block.help3 .help_content:before {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: 4px;
+    left: inherit;
+    border: 10px solid transparent;
+    border-left: 20px solid #ccc; }
+#new_maket .help_block.help6 .help_content {
+  width: 600px;
+  margin: 0px;
+  margin-left: -300px;
+  margin-top: -232px; }
+  #new_maket .help_block.help6 .help_content img {
+    width: 300px; }
+  #new_maket .help_block.help6 .help_content:before {
+    content: '';
+    position: absolute;
+    top: inherit;
+    bottom: -30px;
+    left: 50%;
+    border: 10px solid transparent;
+    border-top: 20px solid #ccc; }
+#new_maket .help_block .close {
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  font-size: 12px;
+  padding: 5px;
+  padding-top: 2px;
+  padding-bottom: 3px; }
+#new_maket .help_block .help_content {
+  margin-left: 20px;
+  padding: 10px;
+  position: absolute;
+  background: #fff;
+  width: 200px;
+  font-size: 12px;
+  color: #414141;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border: 0px solid #000000;
+  z-index: 100; }
+  #new_maket .help_block .help_content:before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 4px;
+    border: 10px solid transparent;
+    border-right: 20px solid #ccc; }
 #new_maket .slider {
   padding-left: 20px;
   margin-bottom: 35px; }
@@ -814,6 +875,10 @@
   border-radius: 5px 5px 5px 5px;
   -moz-border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px; }
+#new_maket .table .filtr {
+  cursor: pointer; }
+  #new_maket .table .filtr span {
+    text-decoration: underline; }
 #new_maket .table th {
   font-size: 12px;
   background: #ddd; }

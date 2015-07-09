@@ -56,6 +56,7 @@ calcServices.factory("DBheader", ['$http',
             this.power = [10, 400];
             this.image = 'http://placehold.it/520x300';
             this.disable_sel_name = 1;
+            this.calculation = [];
 
             this.id = {
                 relation_db: {id: 0},
@@ -88,7 +89,7 @@ calcServices.factory("DBheader", ['$http',
             //чистим контент
             this.content = [];
             this.filtred_seria = [];
-            this.disable_sel_name = 1;
+            this.disable_sel_name = 0;
 
             //Смотрим подходящие лампочки по мощности
             var power_lamps_id_filtr = [];
@@ -149,9 +150,13 @@ calcServices.factory("DBheader", ['$http',
                 if (filtr_seria.indexOf(value.seria_id) == -1)
                     filtr_seria.push(value.seria_id);
             }.bind(this));
+
+            //this.filtred_seria.push({id: 0});
             angular.forEach(this.seria, function (value, key) {
-                if (filtr_seria.indexOf(value.id) >= 0)
+                if (filtr_seria.indexOf(value.id) !== -1) {
                     this.filtred_seria.push(value);
+
+                }
             }.bind(this));
 
 
@@ -163,7 +168,7 @@ calcServices.factory("DBheader", ['$http',
             this.filtr();
             var temp = [];
             angular.forEach(this.content, function (value, key) {
-                if (value.seria_id == id)
+                if ((value.seria_id == id) || (id == 0))
                     temp.push(value);
             }.bind(this));
             this.content = temp;
@@ -277,7 +282,9 @@ calcServices.factory("DBheader", ['$http',
                             rel_db.image = value[14];
                             rel_db.article = value[6];
                             rel_db.location = value[5];
-                            rel_db.total_luminous_flux = 1*value[8].replace(',','.');
+                            rel_db.total_luminous_flux = 1 * value[8].replace(',', '.');
+                            //Эксплуатационная группа
+                            rel_db.gr = value[17];
                             if (this.temp.name.indexOf(value[4]) == -1) {
                                 this.temp.name.push(value[4]);
                                 this.relation_db.push(rel_db);
