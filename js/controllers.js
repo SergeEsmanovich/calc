@@ -83,7 +83,8 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             if ($scope.DBheader.calculation.length > 0) {
                 var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
 
-                var RKZ = $scope.RKZ[$scope.area.pollution][gr];
+                var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
+                console.log('(' + gr + ',' + $scope.area.pollution + ')');
                 console.log(RKZ);
                 $scope.area.safety_factor = RKZ.kz;
                 $scope.area.service_factor = RKZ.ke;
@@ -98,11 +99,24 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         $scope.$watch('area.pollution', function (newValue, oldValue) {
             if ($scope.area.pribor) {
                 var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
-                var RKZ = $scope.RKZ[newValue][gr];
+                var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
+                console.log('(' + gr + ',' + $scope.area.pollution + ')');
+                console.log(RKZ);
                 $scope.area.safety_factor = RKZ.kz;
                 $scope.area.service_factor = RKZ.ke;
             }
         }, true);
+        $scope.$watch('area.type', function (newValue, oldValue) {
+            if ($scope.area.pribor) {
+                $scope.area.pollution = 0;
+                var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
+                var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
+                console.log('(' + gr + ',' + $scope.area.pollution + ')');
+                console.log(RKZ);
+                $scope.area.safety_factor = RKZ.kz;
+                $scope.area.service_factor = RKZ.ke;
+            }
+        });
 
 
 
@@ -172,6 +186,18 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                 new Array({kz: 1.7, ke: 0.59, c: 6}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.4, ke: 0.71, c: 2}, {kz: 1.6, ke: 0.63, c: 4}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 2}), //groupe6
                 new Array({kz: 1.6, ke: 0.63, c: 4}, {kz: 1.6, ke: 0.63, c: 2}, {kz: 1.4, ke: 0.71, c: 1}, {kz: 1.6, ke: 0.63, c: 2}, {kz: 1.3, ke: 0.77, c: 4}, {kz: 1.4, ke: 0.71, c: 4}) //groupe7
                 );
+
+        $scope.RKZO = new Array(
+                new Array({kz: 1.7, ke: 0.59, c: 2}, {kz: 1.4, ke: 0.71, c: 2}),
+                new Array({kz: 1.7, ke: 0.59, c: 2}, {kz: 1.4, ke: 0.71, c: 2}),
+                new Array({kz: 1.7, ke: 0.59, c: 2}, {kz: 1.4, ke: 0.71, c: 2}),
+                new Array({kz: 1.7, ke: 0.59, c: 2}, {kz: 1.4, ke: 0.71, c: 2}),
+                new Array({kz: 1.6, ke: 0.63, c: 2}, {kz: 1.4, ke: 0.71, c: 1}),
+                new Array({kz: 1.6, ke: 0.63, c: 2}, {kz: 1.4, ke: 0.71, c: 1}),
+                new Array({kz: 1.6, ke: 0.63, c: 2}, {kz: 1.4, ke: 0.71, c: 1})
+                );
+
+
 
 
 
@@ -270,7 +296,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                             value.keys.push(key);
                             calc.table = v;
                             var gr = 1 * value.gr - 1;
-                            var RKZ = $scope.RKZ[$scope.area.pollution][gr];
+                            var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
                             value.RKZ = RKZ;
 
                             calc.service_factor = RKZ.kz;
