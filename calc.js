@@ -40,6 +40,9 @@ function Calc() {
     //средняя освещенность
     this.medium_light = 300;
     //Коэффициент запаса
+    /* 
+     *Коэффициент запаса
+     */
     this.safety_factor = 1.4;
     //Коэффициент эксплуатации
     this.service_factor = 0.71;

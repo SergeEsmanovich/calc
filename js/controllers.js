@@ -80,6 +80,15 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                     $scope.DBheader.image = value.image;
                 }
             });
+            if ($scope.DBheader.calculation.length > 0) {
+                var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
+
+                var RKZ = $scope.RKZ[$scope.area.pollution][gr];
+                console.log(RKZ);
+                $scope.area.safety_factor = RKZ.kz;
+                $scope.area.service_factor = RKZ.ke;
+            }
+
         });
         var orderBy = $filter('orderBy');
         $scope.order = function (predicate, reverse) {
@@ -87,8 +96,12 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         };
 
         $scope.$watch('area.pollution', function (newValue, oldValue) {
-            $scope.area.safety_factor = $scope.pollution[$scope.area.pollution].kz;
-            $scope.area.service_factor = $scope.pollution[$scope.area.pollution].ke;
+            if ($scope.area.pribor) {
+                var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
+                var RKZ = $scope.RKZ[newValue][gr];
+                $scope.area.safety_factor = RKZ.kz;
+                $scope.area.service_factor = RKZ.ke;
+            }
         }, true);
 
 
@@ -201,56 +214,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             {name: 'Ковролин однотонный серый', ref: 10, active: [0, 0, 1]}
         ];
 
-//        $scope.seria = [
-//            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ЖСП07', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ГСП17', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ЖСП17', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ГСП07', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ЖСП47', groupe: 'Промышленные светильники типа «колокол»'},
-//            {text: 'ЛСП61', groupe: 'Линейные промышленные светильники'},
-//            {text: 'ЛСП41', groupe: 'Линейные промышленные светильники'},
-//            {text: 'ДСП09', groupe: 'Светодиодные промышленные светильники'},
-//        ];
-//        $scope.pribor = [
-//            'суммарный световой поток всех ламп в световом приборе (nFл)',
-//            'тип ламп',
-//            'высота светильника  (hсв)',
-//            'мощность СП (Pсв)',
-//            'стоимость светильника (Ссв)',
-//        ];
-//        $scope.location = [
-//            'p1 (положение 1)',
-//            'p2 (положение 2)'
-//        ];
-//        $scope.active_1 = 'active';
-//        $scope.active_2 = '';
-//        $scope.send_active = function (id) {
-//            if (id == 1) {
-//                $scope.active_1 = 'active';
-//                $scope.active_2 = '';
-//            } else {
-//                $scope.active_1 = '';
-//                $scope.active_2 = 'active';
-//            }
-//
-//        }
 
-
-
-//        var reflections_factors = [];
-//        for (var ii = 0; ii < $scope.i.length; ii++) {
-//            reflections_factors[ii] = [];
-//            for (var jj = 0; jj < $scope.j.length; jj++) {
-//                reflections_factors[ii][jj] = 0;
-//            }
-//        }
-//
-//        reflections_factors[0][0] = 50;
-//        reflections_factors[0][1] = 33;
-//        reflections_factors[0][2] = 27;
-//        reflections_factors[0][3] = 32;
-        //и тд
 
 
         var calc = new Calc();
@@ -305,6 +269,13 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                             value.table.push(v);
                             value.keys.push(key);
                             calc.table = v;
+                            var gr = 1 * value.gr - 1;
+                            var RKZ = $scope.RKZ[$scope.area.pollution][gr];
+                            value.RKZ = RKZ;
+
+                            calc.service_factor = RKZ.kz;
+                            calc.service_factor = RKZ.ke;
+
                             //Мощность лампочки
                             value.lamp_power = 1 * $scope.DBheader.get_power_lamp(value.power_lamp_id);
                             calc.lamp_power = value.lamp_power;
