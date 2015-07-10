@@ -54,7 +54,7 @@ calcServices.factory("DBheader", ['$http',
             this.ip_begin;
             this.ip_end;
             this.power = [10, 400];
-            this.image = 'http://placehold.it/520x300';
+            this.image = '/images/stand.jpg';
             this.disable_sel_name = 1;
             this.calculation = [];
 

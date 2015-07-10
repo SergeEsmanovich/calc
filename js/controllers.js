@@ -53,6 +53,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         $scope.DBheader.load();
         var busy = false;
         $scope.$watch('DBheader.power', function (newValue, oldValue) {
+            $scope.area.pribor = null;
             //bullet time
             if (!busy) {
                 busy = true
@@ -63,6 +64,8 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             }
         });
         $scope.$watch('area.seria', function (newValue, oldValue) {
+            $scope.area.pribor = null;
+            $scope.DBheader.image = $scope.DBheader.content[0].image;
             //bullet time
             if (!busy) {
                 busy = true
@@ -97,6 +100,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         };
 
         $scope.$watch('area.pollution', function (newValue, oldValue) {
+            $scope.area.usage_RKZ = true;
             if ($scope.area.pribor) {
                 var gr = 1 * $scope.DBheader.calculation[0].gr - 1;
                 var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
@@ -118,6 +122,14 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             }
         });
 
+        $scope.$watch('area.safety_factor', function (newValue, oldValue) {
+            $scope.area.usage_RKZ = false;
+        });
+        $scope.$watch('area.service_factor', function (newValue, oldValue) {
+            $scope.area.usage_RKZ = false;
+        });
+
+
 
 
         $scope.area = {
@@ -135,7 +147,8 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             seria: null,
             pribor: null,
             type: 0,
-            pollution: 2
+            pollution: 2,
+            usage_RKZ: true
         };
 
         $scope.pollution = [
@@ -247,6 +260,15 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         calc.load_data(lamps[0]);
         calc.calculate();
         $scope.calculate = function () {
+
+            if ($scope.area.pribor == null) {
+                $scope.DBheader.calculation = [];
+                angular.forEach($scope.DBheader.content, function (value) {
+                    $scope.DBheader.calculation.push(value);
+                    //  $scope.DBheader.image = value.image;
+                });
+            }
+
             if ($scope.area.length.val)
                 calc.length = $scope.area.length.val;
 
@@ -282,7 +304,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             angular.forEach($scope.DBheader.calculation, function (value) {
                 value.table = [];
                 value.keys = [];
-                value.safety_factor = $scope.area.safety_factor;
+//                value.safety_factor = $scope.area.safety_factor;
                 var allresult = [];
 
 
@@ -295,12 +317,19 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                             value.table.push(v);
                             value.keys.push(key);
                             calc.table = v;
-                            var gr = 1 * value.gr - 1;
-                            var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
-                            value.RKZ = RKZ;
 
-                            calc.service_factor = RKZ.kz;
-                            calc.service_factor = RKZ.ke;
+                            //Использование таблиц для КЗ КЕ
+                            if ($scope.area.usage_RKZ) {
+                                var gr = 1 * value.gr - 1;
+                                var RKZ = $scope.area.type == 0 ? $scope.RKZ[gr][$scope.area.pollution] : $scope.RKZO[gr][$scope.area.pollution];
+                                value.RKZ = RKZ;
+
+                                value.safety_factor = calc.safety_factor = RKZ.kz;
+                                value.service_factor = calc.service_factor = RKZ.ke;
+                            } else {
+                                value.safety_factor = calc.safety_factor = $scope.area.safety_factor;
+                                value.service_factor = calc.service_factor = $scope.area.service_factor;
+                            }
 
                             //Мощность лампочки
                             value.lamp_power = 1 * $scope.DBheader.get_power_lamp(value.power_lamp_id);
@@ -374,7 +403,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                     temp.push($scope.deepCopy(item));
                 }
             }
-
+            $scope.DBheader.calculation = [];
             $scope.DBheader.calculation = temp;
 
             $scope.order('summ_power', false);
