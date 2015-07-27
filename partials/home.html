@@ -69,7 +69,7 @@
                                                                     </ui-select-choices>
                                                                 </ui-select>-->
                                 <select class="form-control" ng-model="area.seria" convert-to-number>
-                                    <option ng-value="item.id" ng-repeat="item in DBheader.filtred_seria  track by $index">
+                                    <option ng-selected="$index == area.seria" value="{{$index}}" ng-value="item.id" ng-repeat="item in DBheader.filtred_seria  track by $index">
                                         {{item.seria}}
                                     </option>
                                 </select> 
@@ -83,7 +83,7 @@
                             </div>
                             <div class="item name">
                                 <select ng-disabled="DBheader.disable_sel_name" class="form-control" ng-model="area.pribor" convert-to-number>
-                                    <option ng-value="item.id" ng-repeat="item in DBheader.content  track by $index">
+                                    <option ng-selected="$index == area.pribor" value="{{$index}}" ng-value="item.id" ng-repeat="item in DBheader.content  track by $index">
                                         {{item.name}}
                                     </option>
                                 </select> 
@@ -108,13 +108,13 @@
                     </div>
                     <div class="clear"></div>
                     <div>
-                        <label class="pull-left">Длинна подвеса, м</label>
+                        <label class="pull-left">Длина подвеса, м</label>
                         <input ng-model="area.lamp_location_height.val" class="form-control pull-left" type="text">
                         <span ng-click="help2 = 1" class="help pull-left" >?</span>
                         <div class="help_block pull-left">
                             <div ng-show="help2" class="help_content">
                                 <div  ng-click="help2 = 0" class="close">x</div>
-                                <p>Длинна троса, на котором подвешен светильник или расстояние от потолка до точки подвеса светильника</p>
+                                <p>Длина троса, на котором подвешен светильник или расстояние от потолка до точки подвеса светильника</p>
                                 <p><center><img src="/images/help2.png" alt=""></center></p>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="pull-right params">
                     <div>
-                        <label>Длинна, м</label>
+                        <label>Длина, м</label>
                         <input  ng-model="area.length.val" class="form-control" type="text">
                     </div>
                     <div>

@@ -826,10 +826,77 @@
 .clear{
     clear:both;
 }
+
+#footer-layer{
+   line-height: 1; 
+}
+
+#right-column{
+    width: 100%;
+    float: none; 
+    ul{
+        margin: 0px;
+    }
+}
+ .help_content{
+    //display: none;
+ }
+
 #new_maket{
+
+    .block{
+        .list-inline{
+            li{
+                input{
+                    &:focus{
+                        outline: none;
+                        box-shadow: none;
+                    }
+                }
+                &:before{
+                    content: initial;
+                    padding-right: 0px;
+                }
+            }
+        }
+        
+    }
+
+input{
+                    &:focus{
+                        outline: none;
+                         box-shadow: none;
+                    }
+                }
+
+    .big_block{
+       .list-unstyled{
+             li{
+                 input{
+                    &:focus{
+                        outline: none;
+                         box-shadow: none;
+                    }
+                }
+                &:before{
+                    content: initial;
+                    padding-right: 0px;
+
+                }
+            }
+        } 
+    }
+
+
+
+
     .help_block{
+        p{
+            text-align: left;
+        }
         &.help3{
             .help_content{
+
                 width:400px;
                 margin:0px;
                 margin-right: 20px;
@@ -853,7 +920,7 @@
                     width: 300px;
                 }
                 margin-left: -300px;
-                margin-top: -232px;
+                margin-top: -250px;
 
                 &:before{
                     content: ''; 
@@ -874,7 +941,7 @@
             -webkit-border-radius: 50%;
             font-size: 12px;
             padding: 5px;
-            padding-top: 2px;
+            padding-top: 0px;
             padding-bottom: 3px;
         }
         .help_content{
@@ -905,6 +972,7 @@
     .slider{
 
         padding-left: 20px; 
+          padding-top: 10px;
         .ui-slider-horizontal .ui-slider-handle {
             top: -.28em;
         }
@@ -937,7 +1005,8 @@
             display: inline-block;
         }
         .slide{
-            width:290px;
+            //width:290px;
+            width: 200px;
             display: inline-block;
         }
         .value{
@@ -999,7 +1068,7 @@
         width:150px;
     }
     .pollution_level{
-        width: 388px;
+        width: 298px;
         .form-control{
             width:100%;
         }
@@ -1010,7 +1079,7 @@
         margin-bottom: 10px;
     }
     .mr{
-        margin-right: 30px;
+        margin-right: 20px;
     }
     .inline{
         display: inline-block;
@@ -1071,13 +1140,16 @@
         th{
             font-size: 12px;
             background: #ddd;
+            &:nth-child(2){
+                  width: 145px;
+            }
         }
     }
     .pribor{
         @include select;
         .image{
             width: 100%;
-            min-height: 300px;
+            min-height: 215px;
 
         }
         .form-control{
@@ -1094,7 +1166,7 @@
                 width: 100px;
                 margin-right: 14px;
                 &.name{
-                    width: 240px;
+                    width: 150px;
                     margin-right: 0px;
                 }
 
@@ -1127,7 +1199,7 @@
     }
     .params_area{
         label{
-            width:150px;
+            width: 130px;
             display: inline-block;
         }
         input{
@@ -1162,7 +1234,8 @@
     }
     .reflections{
         .select{
-            width: 228px;
+           // width: 228px;
+            width: 184px;
         }
         .content{
             height: 40px;
@@ -1189,4 +1262,13 @@
         }
     }
 
+}
+
+#top-phones{
+    .item{
+        padding:0px;
+    }
+    .vertical-line{
+        margin-right: 20px;
+    }
 }

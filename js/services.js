@@ -115,11 +115,18 @@ calcServices.factory("DBheader", ['$http',
                     if (ipfiltr != undefined) {
                         if (ipfiltr.indexOf(value.ip_id) !== -1) {
                             if (power_lamps_id_filtr.indexOf(value.power_lamp_id) !== -1) {
+                                if (this.content.length < 1) {
+                                    this.content.push({id: 0, name: 'не выбрано'});
+                                }
+
                                 this.content.push(value);
                             }
                         }
                     } else {
                         if (power_lamps_id_filtr.indexOf(value.power_lamp_id) !== -1) {
+                            if (this.content.length < 1) {
+                                this.content.push({id: 0, name: 'не выбрано'});
+                            }
                             this.content.push(value);
                         }
                     }
@@ -130,11 +137,17 @@ calcServices.factory("DBheader", ['$http',
                     if (ipfiltr != undefined) {
                         if (ipfiltr.indexOf(value.ip_id) !== -1) {
                             if (power_lamps_id_filtr.indexOf(value.power_lamp_id) !== -1) {
+                                if (this.content.length < 1) {
+                                    this.content.push({id: 0, name: 'не выбрано'});
+                                }
                                 this.content.push(value);
                             }
                         }
                     } else {
                         if (power_lamps_id_filtr.indexOf(value.power_lamp_id) !== -1) {
+                            if (this.content.length < 1) {
+                                this.content.push({id: 0, name: 'не выбрано'});
+                            }
                             this.content.push(value);
                         }
                     }
@@ -146,20 +159,27 @@ calcServices.factory("DBheader", ['$http',
             }.bind(this));
 
             var filtr_seria = [];
+            //Сбор серии из контента
             angular.forEach(this.content, function (value, key) {
                 if (filtr_seria.indexOf(value.seria_id) == -1)
                     filtr_seria.push(value.seria_id);
             }.bind(this));
 
-            //this.filtred_seria.push({id: 0});
+            //Фильтр по серии
             angular.forEach(this.seria, function (value, key) {
                 if (filtr_seria.indexOf(value.id) !== -1) {
+
+                    if (this.filtred_seria.length < 1) {
+                        this.filtred_seria.push({id: 0, seria: 'не выбрано'});
+                    }
+
                     this.filtred_seria.push(value);
 
                 }
             }.bind(this));
 
-
+            if (this.content[1])
+                this.image = this.content[1].image;
 
         }
 
@@ -168,10 +188,16 @@ calcServices.factory("DBheader", ['$http',
             this.filtr();
             var temp = [];
             angular.forEach(this.content, function (value, key) {
-                if ((value.seria_id == id) || (id == 0))
+                if ((value.seria_id == id) || (id == 0)) {
+                    if ((temp.length == 0) && (value.id != 0)) {
+                        temp.push({id: 0, name: 'не выбрано', image: '/images/stand.jpg'});
+                    }
                     temp.push(value);
+                }
             }.bind(this));
             this.content = temp;
+            if (this.content[1])
+                this.image = this.content[1].image;
             this.disable_sel_name = 0;
         }
 
@@ -283,11 +309,15 @@ calcServices.factory("DBheader", ['$http',
                             rel_db.article = value[6];
                             rel_db.location = value[5];
                             rel_db.total_luminous_flux = 1 * value[8].replace(',', '.');
+                            rel_db.lamp_height = 1 * value[12].replace(',', '.');
                             //Эксплуатационная группа
                             rel_db.gr = value[17];
                             if (this.temp.name.indexOf(value[4]) == -1) {
                                 this.temp.name.push(value[4]);
                                 this.relation_db.push(rel_db);
+                                if (this.content.length < 1) {
+                                    this.content.push({id: 0, name: 'не выбрано'});
+                                }
                                 this.content.push(rel_db);
                             }
 

@@ -83,7 +83,11 @@ function Calc() {
     }
     //индекс помещения
     this.index_area = function () {
-        return this.area() / (this.rated_altitude() * (this.length + this.width));
+//        console.log('S:'+this.area());
+//        console.log('Высота:'+this.rated_altitude());
+//        console.log('Периметр:'+1*(1*this.length + 1*this.width));
+        
+        return this.area() / (this.rated_altitude() * (1*this.length + 1*this.width));
     }
     //Коэффициент использования
     this.factor_use = function () {
@@ -154,7 +158,7 @@ function Calc() {
         log.push('Стоимость = ' + this.cost_lamps());
         result.push(accounting.formatNumber(this.cost_lamps()));
 
-        console.log(log);
+      //  console.log(log);
         console.log('закончил вычислять');
         // return log;
         return result;

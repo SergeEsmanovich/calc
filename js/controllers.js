@@ -64,23 +64,27 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             }
         });
         $scope.$watch('area.seria', function (newValue, oldValue) {
-            $scope.area.pribor = null;
-            $scope.DBheader.image = $scope.DBheader.content[0].image;
+            $scope.area.usage_RKZ = true;
+            $scope.area.pribor = 0;
+
+
             //bullet time
-            if (!busy) {
-                busy = true
-                $timeout(function () {
-                    $scope.DBheader.filtr_seria(newValue);
-                    busy = false;
-                }, 500);
-            }
+//            if (!busy) {
+//                busy = true
+//                $timeout(function () {
+            $scope.DBheader.filtr_seria(newValue);
+//                    busy = false;
+//                }, 500);
+//            }
         });
         $scope.$watch('area.pribor', function (newValue, oldValue) {
             $scope.DBheader.calculation = [];
             angular.forEach($scope.DBheader.content, function (value) {
-                if (value.id == newValue) {
-                    $scope.DBheader.calculation.push(value);
-                    $scope.DBheader.image = value.image;
+                if ((value.id == newValue) || (value.id == 0)) {
+                    if (value.id != 0) {
+                        $scope.DBheader.calculation.push(value);
+                        $scope.DBheader.image = value.image;
+                    }
                 }
             });
             if ($scope.DBheader.calculation.length > 0) {
@@ -123,10 +127,12 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         });
 
         $scope.$watch('area.safety_factor', function (newValue, oldValue) {
-            $scope.area.usage_RKZ = false;
+            if (newValue != oldValue)
+                $scope.area.usage_RKZ = false;
         });
         $scope.$watch('area.service_factor', function (newValue, oldValue) {
-            $scope.area.usage_RKZ = false;
+            if (newValue != oldValue)
+                $scope.area.usage_RKZ = false;
         });
 
 
@@ -144,8 +150,8 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             height_working_plane: 0,
             reflection: 3,
             location: 1,
-            seria: null,
-            pribor: null,
+            seria: 0,
+            pribor: 0,
             type: 0,
             pollution: 2,
             usage_RKZ: true
@@ -261,13 +267,20 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
         calc.calculate();
         $scope.calculate = function () {
 
-            if ($scope.area.pribor == null) {
+            //    $scope.DBheader.calculation = $scope.DBheader.content;
+
+
+            if (($scope.area.pribor == null) || ($scope.area.pribor == 0)) {
                 $scope.DBheader.calculation = [];
                 angular.forEach($scope.DBheader.content, function (value) {
-                    $scope.DBheader.calculation.push(value);
+                    if (value.id != 0) {
+                        $scope.DBheader.calculation.push(value);
+                    }
                     //  $scope.DBheader.image = value.image;
                 });
+
             }
+
 
             if ($scope.area.length.val)
                 calc.length = $scope.area.length.val;
@@ -296,8 +309,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
             if (typeof $scope.area.height_working_plane !== 'undefined')
                 calc.height_working_plane = $scope.area.height_working_plane;
 
-            if ($scope.DBheader.calculation.length == 0)
-                $scope.DBheader.calculation = $scope.DBheader.content;
+
 
             $scope.allresult = [];
 
@@ -317,6 +329,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                             value.table.push(v);
                             value.keys.push(key);
                             calc.table = v;
+                            calc.lamp_height = value.lamp_height;
 
                             //Использование таблиц для КЗ КЕ
                             if ($scope.area.usage_RKZ) {
@@ -336,7 +349,7 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                             calc.lamp_power = value.lamp_power;
                             //Световой поток
                             calc.total_luminous_flux = value.total_luminous_flux;
-
+                            //    console.log(calc);
                             var result = calc.calculate();
 //                        if (value.location) {
 //                            value.location = value.location == 'p1' ? 'p1' : 'p2';
@@ -382,7 +395,6 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
 
 
 
-
             var temp = [];
             for (var i = 0; i < $scope.DBheader.calculation.length; i++) {
                 var item = $scope.DBheader.calculation[i];
@@ -400,37 +412,19 @@ calcControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', 'DB', '
                         temp.push($scope.deepCopy(item));
                     }
                 } else {
+//                    if (item.id)
                     temp.push($scope.deepCopy(item));
                 }
             }
-            $scope.DBheader.calculation = [];
-            $scope.DBheader.calculation = temp;
+//            console.log($scope.DBheader.calculation);
+//            $scope.DBheader.calculation = [];
+//            $scope.DBheader.calculation = temp;
 
             $scope.order('summ_power', false);
             $scope.view_result = 1;
         }
 
-//        $scope.help_material = false;
-//        $scope.toggle_help_material = function () {
-//            $scope.help_material = $scope.help_material === false ? true : false;
-//        };
-//        $scope.standart = false;
-//        $scope.toggle_standart = function () {
-//            $scope.standart = $scope.standart === false ? true : false;
-//        };
-//        $scope.load_standart = function (item) {
-//            if (item == 1)
-//                $scope.st_activ_1 = true;
-//            else
-//                $scope.st_activ_1 = false;
-//            if (item == 2)
-//                $scope.st_activ_2 = true;
-//            else
-//                $scope.st_activ_2 = false;
-//        }
-//        $scope.active_standart = function(){
-//            if($scope.st_active_1)
-//        }
+
 
 
     }]);

@@ -701,6 +701,32 @@
 .clear {
   clear: both; }
 
+#footer-layer {
+  line-height: 1; }
+
+#right-column {
+  width: 100%;
+  float: none; }
+  #right-column ul {
+    margin: 0px; }
+
+#new_maket .block .list-inline li input:focus {
+  outline: none;
+  box-shadow: none; }
+#new_maket .block .list-inline li:before {
+  content: initial;
+  padding-right: 0px; }
+#new_maket input:focus {
+  outline: none;
+  box-shadow: none; }
+#new_maket .big_block .list-unstyled li input:focus {
+  outline: none;
+  box-shadow: none; }
+#new_maket .big_block .list-unstyled li:before {
+  content: initial;
+  padding-right: 0px; }
+#new_maket .help_block p {
+  text-align: left; }
 #new_maket .help_block.help3 .help_content {
   width: 400px;
   margin: 0px;
@@ -718,7 +744,7 @@
   width: 600px;
   margin: 0px;
   margin-left: -300px;
-  margin-top: -232px; }
+  margin-top: -250px; }
   #new_maket .help_block.help6 .help_content img {
     width: 300px; }
   #new_maket .help_block.help6 .help_content:before {
@@ -737,7 +763,7 @@
   -webkit-border-radius: 50%;
   font-size: 12px;
   padding: 5px;
-  padding-top: 2px;
+  padding-top: 0px;
   padding-bottom: 3px; }
 #new_maket .help_block .help_content {
   margin-left: 20px;
@@ -764,6 +790,7 @@
     border-right: 20px solid #ccc; }
 #new_maket .slider {
   padding-left: 20px;
+  padding-top: 10px;
   margin-bottom: 35px; }
   #new_maket .slider .ui-slider-horizontal .ui-slider-handle {
     top: -.28em; }
@@ -792,7 +819,7 @@
   #new_maket .slider .label {
     display: inline-block; }
   #new_maket .slider .slide {
-    width: 290px;
+    width: 200px;
     display: inline-block; }
   #new_maket .slider .value {
     width: 47px;
@@ -836,7 +863,7 @@
 #new_maket .typearea {
   width: 150px; }
 #new_maket .pollution_level {
-  width: 388px; }
+  width: 298px; }
   #new_maket .pollution_level .form-control {
     width: 100%; }
 #new_maket .border {
@@ -844,7 +871,7 @@
   padding: 5px;
   margin-bottom: 10px; }
 #new_maket .mr {
-  margin-right: 30px; }
+  margin-right: 20px; }
 #new_maket .inline {
   display: inline-block; }
 #new_maket .power_lamp {
@@ -882,6 +909,8 @@
 #new_maket .table th {
   font-size: 12px;
   background: #ddd; }
+  #new_maket .table th:nth-child(2) {
+    width: 145px; }
 #new_maket .pribor .select {
   margin-bottom: 23px; }
   #new_maket .pribor .select .label {
@@ -972,7 +1001,7 @@
         background: none; }
 #new_maket .pribor .image {
   width: 100%;
-  min-height: 300px; }
+  min-height: 215px; }
 #new_maket .pribor .form-control {
   display: block;
   padding: 6px 12px;
@@ -983,7 +1012,7 @@
   width: 100px;
   margin-right: 14px; }
   #new_maket .pribor .inline .item.name {
-    width: 240px;
+    width: 150px;
     margin-right: 0px; }
   #new_maket .pribor .inline .item .form-control {
     border-left: none;
@@ -1002,7 +1031,7 @@
   #new_maket .pribor .inline .item .ui-select-choices {
     min-width: 300px; }
 #new_maket .params_area label {
-  width: 150px;
+  width: 130px;
   display: inline-block; }
 #new_maket .params_area input {
   margin-left: 10px;
@@ -1026,7 +1055,7 @@
 #new_maket .factors input {
   text-align: center; }
 #new_maket .reflections .select {
-  width: 228px; }
+  width: 184px; }
 #new_maket .reflections .content {
   height: 40px; }
 #new_maket .params_light .head label {
@@ -1040,5 +1069,10 @@
   width: 220px; }
   #new_maket .params_light .r_groupe input {
     margin-right: 5px; }
+
+#top-phones .item {
+  padding: 0px; }
+#top-phones .vertical-line {
+  margin-right: 20px; }
 
 /*# sourceMappingURL=style.css.map */
